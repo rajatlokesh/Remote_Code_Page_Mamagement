@@ -1,0 +1,6 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Utility.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  CodeUtilities.cpp
+  StringUtilities.cpp
+  Generating Code...
+CodeUtilities.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  Utility.vcxproj -> E:\Cse_687\project1_cse687\Debug\Utilities.lib
