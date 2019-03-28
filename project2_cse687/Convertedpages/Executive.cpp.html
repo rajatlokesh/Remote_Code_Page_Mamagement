@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Executive.cpp</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p>DirExplorerN.h
+CodeUtilities.h
+htmlgenerator.h
+<a href = "Executive.h.html">Executive.h</a>
+Display.h
+
+<div class="SLC_Div">/////////////////////////////////////////////////////////////////////</div>
+<div class="SLC_Div">// Executive.cpp - Entry point for Project 1					   //</div>
+<div class="SLC_Div">// ver 1.0                                                         //</div>
+<div class="SLC_Div">// RAJAT Vyas, CSE687 - Object Oriented Design, Spring 2019        //</div>
+<div class="SLC_Div">/////////////////////////////////////////////////////////////////////</div>
+
+
+
+#include"../DirExplorer/DirExplorerN.h"
+#include"../Utilities/CodeUtilities/CodeUtilities.h"
+#include"../Converter/htmlgenerator.h"
+#include "Executive.h"
+#include"../Display/Display.h"
+
+
+using namespace Utilities;
+using namespace FileSystem;
+using namespace converter;
+using namespace Display;
+
+
+
+#ifdef TEST_EXECUTIVE
+
+int main(int argc, char * argv[]) <div class= "function_div">
+{
+	ProcessCmdLine pcl(argc, argv);
+	std::string path = Path::getFullFileSpec(pcl.path());
+	std::string app_path;
+	std::vector&lt;std::string&gt; patterns = pcl.patterns();
+	int i = 0;
+	for (auto patt : patterns) {
+		if (std::regex_match(patt, std::regex(".*.exe$"))) {
+			app_path = patt;
+			patterns.erase(patterns.begin()+i);
+		}
+		i++;
+	}
+
+
+	Implement::execute(path,app_path,patterns);
+	return 0;
+}</div>
+#endif <div class="SLC_Div">// TEST_EXECUTIVE</div>
+
+converter::Executive::Executive()<div class= "function_div">
+{
+}</div>
+
+converter::Executive::~Executive()<div class= "function_div">
+{
+}</div>
+
+bool converter::Executive::execute(std::string f_path, std::string app_path, std::vector&lt;std::string&gt; patterns, int app)<div class= "function_div">
+{
+	std::vector&lt;std::string&gt; flst;
+	std::vector&lt;std::string&gt; sfiles;
+	std::string application_path = app_path;
+	flst = DirExplorerSetup(f_path,1);
+	std::string convertedpages = "../Convertedpages";
+	sfiles = Fileselector(flst, patterns);
+	bool result = false;
+	<div class="SLC_Div">//std::cout &lt;&lt; "Path :" &lt;&lt; FileSystem::Path::getFullFileSpec(f_path); std::cout &lt;&lt; "\nRegex :";</div>
+	std::cout &lt;&lt; "\n";
+	if (!sfiles.empty())
+	{
+		std::cout &lt;&lt; "\n Converted Files:\n";
+		for (auto file : sfiles) {
+			<div class="SLC_Div">//std::cout &lt;&lt; file &lt;&lt; "\n" &lt;&lt; std::endl;</div>
+			HtmlGenerator html(Path::getFullFileSpec(convertedpages));
+			html.convert(file);
+			if (app == 0) {
+				std::cout &lt;&lt; html.f_path()&lt;&lt;"\\"&lt;&lt;Utilities::SplitFilename(file)&lt;&lt;".html" &lt;&lt; std::endl;
+			}
+		}
+
+		std::vector&lt;std::string&gt; con_filelist = converter::DirExplorerSetup(Path::getFullFileSpec(convertedpages),0);
+
+		if (app == 1) {
+			Show::Showpages(application_path, con_filelist);
+		}
+		result = true;
+	}
+	else
+	{
+		std::cout &lt;&lt; "Based on the regex provided, 0 files matched out of " &lt;&lt; flst.size() &lt;&lt; "!!" &lt;&lt; std::endl;
+
+		result = false;
+	}
+	return result;
+}</div>
+
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Executive.h</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p>Loader.h
+htmlgenerator.h
+
+#pragma once
+<div class="SLC_Div">/////////////////////////////////////////////////////////////////////</div>
+<div class="SLC_Div">// Executive.h - Entry point for the project                       //</div>
+<div class="SLC_Div">// ver 1.0														   //</div>
+<div class="SLC_Div">// Author: Rajat Vyas											   //</div>
+<div class="SLC_Div">// Provide by - Jim Fawcett, CSE687 - Object Oriented Design,	   //</div>
+<div class="SLC_Div">// Fall 2019													   //</div>
+<div class="SLC_Div">/////////////////////////////////////////////////////////////////////</div>
+<div class="SLC_Div">/*
+ * Package Operations:
+ * -------------------
+ * Open the browser chrome and show pages individually.
+ *
+ * Required Files:
+ * ---------------
+ * Display.h, Display.cpp
+ * FileSystem.h, FileSystem.cpp      <div class="SLC_Div">// Directory and Path classes</div>
+ * CodeUtilities.h                   
+ * Public Interface:
+ * -----------------
+ * execute() - takes a path and execution path and patterns from cmd line and execute converter
+ * DirExplorersetup() - sets up the directory path from which to real files and returs all the files in it.
+ * Maintenance History:
+ * --------------------
+ * ver 1.0 : 13 Feb 2019
+ * - first release
+ *
+*</div>
+#ifndef EXECUTIVE_H
+#define EXECUTIVE_H
+
+
+#include &lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;regex&gt;
+#include"../Loader/Loader.h"
+#include"../Converter/htmlgenerator.h"
+using namespace FileSystem;
+
+namespace HtmlConverter{
+		<div class="SLC_Div">//static std::string SplitFilename(const std::string & str);</div>
+	<div class="SLC_Div">//--------&lt;Wrapper for execute function which takes a path and execution path and patterns from cmd line and execute converter&gt;------------</div>
+	class Executive<div class= "class_div">
+	{
+	public:
+		Executive();
+		~Executive();
+		static bool execute(std::string f_path, std::string app_path, std::vector&lt;std::string&gt; patterns,int);
+		void convertwork(std::string &convertedpages, std::vector&lt;std::string&gt; &sfiles);
+		void DemoLoader(Loader::LoadFiles &loadfiles, std::vector&lt;std::string&gt; &sfiles);
+		bool showcoverterwork(std::vector&lt;std::string&gt; &filelist, bool &retflag);
+	private:
+
+	}</div>;
+	<div class="SLC_Div">/*class DirBrowser : public DirExplorerE {
+	public:
+		DirBrowser(const std::string& path) : DirExplorerE(path) {};
+	};
+	class FileHandler:public IFileEvent
+	{
+	public:
+		void execute(const std::string& filename);
+		std::vector&lt;std::string&gt; getfilelist();
+	private:
+		std::vector&lt;std::string&gt; filelist_;
+	};
+	static std::vector&lt;std::string&gt; DirSetup(std::string& path, std::vector&lt;std::string&gt;& patterns);*</div>
+}
+
+#endif <div class="SLC_Div">// !EXECUTIVE_H</div>
+
+</pre>
+</body>
+</html>
