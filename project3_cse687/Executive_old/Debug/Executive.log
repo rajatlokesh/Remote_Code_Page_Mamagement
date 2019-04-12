@@ -1,0 +1,7 @@
+﻿  Executive.cpp
+d:\projects\cse_687\project3_cse687\executive\executive.h(83): warning C4129: 'P': unrecognized character escape sequence
+d:\projects\cse_687\project3_cse687\executive\executive.h(83): warning C4129: 'G': unrecognized character escape sequence
+d:\projects\cse_687\project3_cse687\executive\executive.h(83): warning C4129: 'C': unrecognized character escape sequence
+d:\projects\cse_687\project3_cse687\executive\executive.h(83): warning C4129: 'A': unrecognized character escape sequence
+d:\projects\cse_687\project3_cse687\executive\executive.h(83): warning C4129: 'c': unrecognized character escape sequence
+  Executive.vcxproj -> D:\Projects\Cse_687\project3_cse687\Debug\Executive.lib

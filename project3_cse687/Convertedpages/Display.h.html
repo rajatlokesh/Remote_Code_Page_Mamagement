@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Display.h</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p>
+#pragma once
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">// DirExplorerN.h - Naive directory explorer                       //</span>
+<span class="SLC_Div">// ver 1.3														   //</span>
+<span class="SLC_Div">// Author: Rajat Vyas											   //</span>
+<span class="SLC_Div">// Provide by - Jim Fawcett, CSE687 - Object Oriented Design,	   //</span>
+<span class="SLC_Div">// Fall 2019													   //</span>
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">/*
+ * Package Operations:
+ * -------------------
+ * Open the browser chrome and show pages individually.
+ *
+ * Required Files:
+ * ---------------
+ * Process.h, Process.cpp
+ * FileSystem.h, FileSystem.cpp      <span class="SLC_Div">// Directory and Path classes</span>
+ * CodeUtilities.h                   <span class="SLC_Div">// ProcessCmdLine class</span>
+ *
+ * Maintenance History:
+ * --------------------
+ * ver 1.0 : 13 Feb 2019
+ * - first release
+ *
+*/</span>
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+namespace Display {
+<span class="SLC_Div">//------------&lt;Show class just a wrapper around showpages to show converted files with application&gt;------------------</span>
+	class Show<span class= "class_div">
+	{
+	public:
+		Show();
+		~Show();
+<span class="SLC_Div">//-------------&lt;accpts application path and list of files to show on the browser&gt;------------------------------------</span>
+		static void Showpages(std::string &application_path, std::vector&lt;std::string&gt; &con_filelist);
+
+	}</span>;
+
+	
+}
+
+</pre>
+</body>
+</html>

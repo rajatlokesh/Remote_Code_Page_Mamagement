@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Display.cpp</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p>Process.h
+FileSystem.h
+Display.h
+
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">// Display.cpp - Display package used for displaying converted page//</span>
+<span class="SLC_Div">// ver 1.0                                                         //</span>
+<span class="SLC_Div">// RAJAT Vyas, CSE687 - Object Oriented Design, Spring 2019        //</span>
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+
+
+
+#include "../Process/Process.h"
+#include "../FileSystem/FileSystem.h"
+#include "Display.h"
+using namespace FileSystem;
+#ifdef DISPLAY
+int main()<span class= "function_div">
+{
+    std::cout &lt;&lt; "Hello World!\n"; 
+}</span>
+#endif
+
+Display::Show::Show()<span class= "function_div">
+{
+}</span>
+
+Display::Show::~Show()<span class= "function_div">
+{
+}</span>
+
+<span class="SLC_Div">//-------------&lt;accpts application path and list of files to show on the browser&gt;------------------------------------</span>
+void Display::Show::Showpages(std::string &application_path, std::vector&lt;std::string&gt; &con_filelist)<span class= "function_div">
+{
+	Process process;
+	process.title("Browser Launcher");
+	process.application(application_path);
+	<span class="SLC_Div">/*std::cout &lt;&lt; "\n  Press key to open browser with required converted files to satisfy Requirement...!!";
+	char ch;
+	std::cin.read(&ch, 1);*/</span>
+	for (auto file : con_filelist) {
+		<span class="SLC_Div">//std::cout &lt;&lt; "file name: "&lt;&lt;file &lt;&lt; std::endl;</span>
+		process.commandLine("/A " + file);
+		process.create();
+		CBP callback = []() { std::cout &lt;&lt; "\n  --- child process exited with this message ---\n"; };
+		process.setCallBackProcessing(callback);
+		process.registerCallback();
+
+		WaitForSingleObject(process.getProcessHandle(), INFINITE);  <span class="SLC_Div">// wait for created process to terminate</span>
+	}
+	std::cout &lt;&lt; "\n  after OnExit";
+	std::cout.flush();
+<span class="SLC_Div">//	std::cin.read(&ch, 1);</span>
+}</span>
+
+
+</pre>
+</body>
+</html>

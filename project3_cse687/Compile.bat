@@ -1,0 +1,1 @@
+devenv SourceCodePublisher.sln /ReBuild debug

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>DirExplorerE.cpp</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p><a href = "DirExplorerE.h.html">DirExplorerE.h</a>
+StringUtilities.h
+CodeUtilities.h
+
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">// DirExplorerE.cpp - directory explorer using events              //</span>
+<span class="SLC_Div">// ver 1.0                                                         //</span>
+<span class="SLC_Div">// Jim Fawcett, CSE687 - Object Oriented Design, Fall 2018         //</span>
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">/*
+*  Note:
+*  This file simulates application code that uses DirExplorerE.
+*/</span>
+
+#ifdef TEST_DIREXPLORERE  <span class="SLC_Div">// only compile the following when defined</span>
+
+#include "DirExplorerE.h"
+#include "../Utilities/StringUtilities/StringUtilities.h"
+#include "../Utilities/CodeUtilities/CodeUtilities.h"
+
+using namespace Utilities;
+using namespace FileSystem;
+
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">// dirEventHandler class defines dir processing without modifying</span>
+<span class="SLC_Div">// DirExplorerE code.</span>
+
+class dirEventHandler : public IDirEvent<span class= "class_div">
+{
+public:
+  void execute(const std::string& dirname)<span class= "function_div">
+  {
+    std::cout &lt;&lt; "\n  dir---&gt;  " &lt;&lt; dirname;
+  }</span>
+}</span>;
+
+<span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">// fileEventHandler class defines file processing without modifying</span>
+<span class="SLC_Div">// DirExplorerE code.</span>
+
+class fileEventHandler : public IFileEvent<span class= "class_div">
+{
+public:
+  void execute(const std::string& filename)<span class= "function_div">
+  {
+    std::cout &lt;&lt; "\n  file--&gt;    " &lt;&lt; filename;
+  }</span>
+}</span>;
+
+class AppDirExplorerE : public DirExplorerE<span class= "class_div">
+{
+public:
+  AppDirExplorerE(const std::string& path) : DirExplorerE(path) <span class= "function_div">{}</span>
+
+  virtual bool done(bool reset = false)<span class= "function_div">
+  {
+    static bool first = true;
+  
+    if (first || reset)
+    {
+      std::cout &lt;&lt; "\n  Application modified done() invoked";
+      first = false;
+    }
+    return DirExplorerE::done();
+  }</span>
+}</span>;
+
+ProcessCmdLine::Usage customUsage()<span class= "function_div">
+{
+  std::string usage;
+  usage += "\n  Command Line: path [/option]* [/pattern]*";
+  usage += "\n    path is relative or absolute path where processing begins";
+  usage += "\n    [/option]* are one or more options of the form:";
+  usage += "\n      /s - walk directory recursively";
+  usage += "\n      /h - hide empty directories";
+  usage += "\n      /a - on stopping, show all files in current directory";
+  usage += "\n    [pattern]* are one or more pattern strings of the form:";
+  usage += "\n      *.h *.cpp *.cs *.txt or *.*";
+  usage += "\n";
+  return usage;
+}</span>
+
+int main(int argc, char *argv[])<span class= "function_div">
+{
+  Title("Demonstrate DirExplorer-Events, " + DirExplorerE::version());
+
+  ProcessCmdLine pcl(argc, argv);
+  pcl.usage(customUsage());
+
+  preface("Command Line: ");
+  pcl.showCmdLine();
+  putline();
+
+  if (pcl.parseError())
+  {
+    pcl.usage();
+    std::cout &lt;&lt; "\n\n";
+    return 1;
+  }
+
+  AppDirExplorerE de(pcl.path());
+
+  <span class="SLC_Div">//----&lt; subscribe for dir and file events &gt;------------------------</span>
+
+  de.dirSubScribe(new dirEventHandler);
+  de.fileSubScribe(new fileEventHandler);
+
+  for (auto patt : pcl.patterns())
+  {
+    de.addPattern(patt);
+  }
+
+  if (pcl.hasOption('s'))
+  {
+    de.recurse();
+  }
+
+  if (pcl.hasOption('a'))
+  {
+    de.showAllInCurrDir(true);
+  }
+
+  if (pcl.hasOption('h'))
+  {
+    de.hideEmptyDirectories(true);
+  }
+
+  if (pcl.maxItems() &gt; 0)
+  {
+    de.maxItems(pcl.maxItems());
+  }
+
+  <span class="SLC_Div">//----&lt; start file system processing &gt;-----------------------------</span>
+
+  de.search();
+  de.showStats();
+
+  std::cout &lt;&lt; "\n\n";
+  return 0;
+}</span>
+
+#endif
+
+</pre>
+</body>
+</html>

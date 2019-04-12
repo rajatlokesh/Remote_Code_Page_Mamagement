@@ -1,0 +1,11 @@
+﻿  Translator.cpp
+d:\projects\cse_687\project3_cse687\shim\translator.cpp(82): warning C4018: '<': signed/unsigned mismatch
+d:\projects\cse_687\project3_cse687\shim\translator.cpp(93): warning C4244: 'argument': conversion from 'wchar_t' to '_Elem', possible loss of data
+          with
+          [
+              _Elem=char
+          ]
+  .NETFramework,Version=v4.6.1.AssemblyAttributes.cpp
+  Translator.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+Loader.lib(Loader.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+  Shim.vcxproj -> D:\Projects\Cse_687\project3_cse687\Debug\Shim.dll

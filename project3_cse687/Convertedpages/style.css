@@ -1,0 +1,93 @@
+*{
+    
+}
+    
+p {
+    line-height: 1.2;
+}
+a{
+    outline: none;
+    text-decoration: none;
+    padding: 2px 1px 0;
+}
+a:link {
+    color: rgb(174, 249, 34);
+}
+a:visited {
+    color: #F93822FF;
+}
+a:focus {
+    border-bottom: 1px solid;background: rgb(212, 5, 168);
+}
+a:hover {
+    border-bottom: 1px solid;background: #CDFEAA;
+}
+body{
+    font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', Arial, Helvetica, sans-serif ;
+    font-size:1.2em ;
+    font-weight: 15 ;
+    color:#000; 
+    background-color:  #f3fab3; 
+    
+}
+.float{
+    position:fixed;
+    display: block;
+    width:9% ;
+    height:7% ;
+    bottom:5% ;
+    margin: auto auto;
+    padding : 0;
+    overflow: hidden;
+    outline:none;
+    color: #FFF;
+    border-width: 0;
+    border-radius:10px;
+    text-align:center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    transition: background-color .3s;
+}
+#button_class{
+    left: 70%;
+    background-color: #ff9100;
+}
+#button_funct{
+    left: 80% ;
+    background-color: #ff9100;
+}
+#button_comment{
+    left: 90% ;
+    background-color:  #ff9100;
+}
+#button_struct{
+    left: 70% ;
+    background-color: #00695c;
+}
+#button_class:hover{
+    background-color: #d81b60;
+}
+#button_funct:hover{
+    background-color: #f4511e;
+}
+#button_comment:hover{
+    background-color: #8e24aa;
+}
+#button_struct:hover{
+    background-color: #d32f2f;
+}
+
+.neww:active:before {
+    width: 120%;
+    padding-top: 120%;
+    transition: width .2s ease-out, padding-top .2s ease-out;
+}
+*,*:before,*:after{
+    box-sizing:border-box;
+}
+.SLC_Div,.MLC_Div,.function_div,.class_div,.struct_div{
+    max-width: auto; 
+    display: inline;
+}
+h4{
+    color: rgb(12, 12, 12);
+} 

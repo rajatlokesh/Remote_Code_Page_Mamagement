@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>test.cpp</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p>
+#pragma once
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;list&gt;
+namespace TestHarness {
+	class ITest
+	{
+	public:
+		ITest() {};
+		virtual std::string name() = 0;
+		virtual bool dotest() = 0;
+		virtual bool result() = 0;
+		virtual void setresult(bool r) = 0;
+		virtual ~ITest() {};
+
+
+
+	};
+	class Tester
+	{
+	public:
+		Tester();
+		void add(ITest* test);
+		void clear();
+		void execute();
+		void check();
+		~Tester();
+
+	private:
+		std::list&lt;ITest*&gt; tests_;
+		bool result_;
+	}; 
+	class Executor 
+	{
+	public:
+		static bool execute(ITest* test);
+		static void check(bool result, std::string name);
+
+	};
+	inline Tester::Tester() :result_(true), tests_()
+	{
+	}
+
+	inline void Tester::add(ITest* test)
+	{
+		tests_.push_back(test);
+	}
+
+	inline void Tester::clear()
+	{
+		tests_.clear();
+	}
+
+	inline void Tester::execute()
+	{
+
+		for (auto test : tests_)
+		{
+			Executor::check(Executor::execute(test), test-&gt;name());
+			if (test-&gt;result() == false)
+				result_ = false;
+		}
+	}
+
+	inline void Tester::check()
+	{
+		if (result_)
+		{
+			std::cout &lt;&lt; "All test passed!" &lt;&lt; std::endl;
+		}
+		else {
+			std::cout &lt;&lt; "One or more test failed" &lt;&lt; std::endl;
+		}
+	}
+
+	inline Tester::~Tester() {}
+
+	inline bool Executor::execute(ITest* test)
+	{
+		bool result = false;
+		try
+		{
+			result = test-&gt;dotest();
+			test-&gt;setresult(result);
+		}
+		catch (const std::exception&)
+		{
+			test-&gt;result();
+		}
+
+		return result;
+	}
+
+	inline void Executor::check(bool result, std::string name)
+	{
+		if (result) {
+			std::cout &lt;&lt; "\n passed ---" &lt;&lt; name &lt;&lt; std::endl;
+		}
+		else {
+			std::cout &lt;&lt; "\n failed ---" &lt;&lt; name &lt;&lt; std::endl;
+		}
+
+	}
+}
+
+
+
+</pre>
+</body>
+</html>

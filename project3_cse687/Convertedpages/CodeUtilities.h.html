@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>CodeUtilities.h</title>
+</head>
+<body>
+    <br><h2>OOD PROJECT #2: Source Code Publisher </h2><br>
+    <label for="button" class="neww">
+        <input class="float" type="button" onclick="funct_class()" value="Hide Classes" id="button_class">
+        <input class="float" type="button" onclick="funct_funct()" value="Hide Functions" id="button_funct">
+        <input class="float" type="button" onclick="funct_comment()" value="hide comments" id="button_comment">
+    </label>
+    <pre>
+
+<p>Dependencies:</p>
+#pragma once
+<span class="SLC_Div">///////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">// CodeUtilities.h - small, generally useful, helper classes         //</span>
+<span class="SLC_Div">// ver 1.3                                                           //</span>
+<span class="SLC_Div">// Language:    C++, Visual Studio 2017                              //</span>
+<span class="SLC_Div">// Application: Project Utilities, CSE687 - Project 1		         //</span>
+<span class="SLC_Div">// Author:      Rajat Vyas, Syracuse University,					 //</span>
+<span class="SLC_Div">//              ravyas@syr.edu										 //</span>
+<span class="SLC_Div">//Provided by:  Prof. Jim Fawcett									 //</span>
+<span class="SLC_Div">///////////////////////////////////////////////////////////////////////</span>
+<span class="SLC_Div">/*
+* Package Operations:
+* -------------------
+* This package provides classes:
+* - ProcessCmdLine    extracts path, options, patterns, and a number from command line
+* - Converter&lt;T&gt;      converts T to and from strings
+* - Box&lt;T&gt;            converts primitive type to instance of a class
+* - PersistFactory&lt;T&gt; adds toXml() method to T
+*
+* Build Process:
+* --------------
+* Required Files: 
+*   CodeUtilities.h
+*
+* Maintenance History:
+* --------------------
+* ver 1.4 : 13 Feb 2019
+* - added SplitFileName and Fileselector
+* ver 1.3 : 16 Aug 2018
+* - added default usage text
+* ver 1.2 : 11 Aug 2018
+* - added ProcessCmdLine::hasOption method
+* - fixed bugs in ProcessCmdLine::showCmdLine
+*   and ProcessCmdLine::showOptions
+* ver 1.1 : 10 Aug 2018
+* - added ProcessCmdLine class
+* ver 1.0 : 12 Jan 2018
+* - first release
+* - refactored from earlier Utilities.h
+*
+* Notes:
+* ------
+* - Designed to provide all functionality in header file. 
+* - Implementation file only needed for test and demo.
+*
+* Planned Additions and Changes:
+* ------------------------------
+* - none yet
+*/</span>
+
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;regex&gt;
+#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+
+namespace Utilities
+{
+  <span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+  <span class="SLC_Div">// preface function</span>
+  <span class="SLC_Div">// - used to add a string preface to an output, e.g., "\n  "</span>
+
+  inline void preface(const std::string& msg = "", bool doReturn = true, std::ostream& out = std::cout, const std::string& prefix = "  ")<span class= "function_div">
+  {
+    if (doReturn) out &lt;&lt; "\n" &lt;&lt; prefix &lt;&lt; msg;
+  }</span>
+
+  inline std::string defaultUsage()<span class= "function_div">
+  {
+    std::string usage;
+    usage += "\n  Command Line: path [/option]* [/pattern]* [integer]";
+    usage += "\n    path is relative or absolute path where processing begins";
+    usage += "\n    [/option]* are one or more options of the form /s, /r, etc.";
+    usage += "\n    [pattern]* are one or more pattern strings used for matching";
+    usage += "\n    [integer] is the maximum number of items to process";
+    usage += "\n";
+    return usage;
+  }</span>
+
+  <span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+  <span class="SLC_Div">// ProcessCmdLine class</span>
+  <span class="SLC_Div">// - extracts path, patterns, options, number</span>
+
+  class ProcessCmdLine<span class= "class_div">
+  {
+  public:
+    using Usage = std::string;
+    using Path = std::string;
+    using Option = int;
+    using Options = std::vector&lt;Option&gt;;
+    using Pattern = std::string;
+    using Patterns = std::vector&lt;Pattern&gt;;
+    using Number = long int;
+
+    ProcessCmdLine(int argc, char** argv, std::ostream& out = std::cout);
+    ProcessCmdLine(const ProcessCmdLine&) = delete;
+    ProcessCmdLine& operator=(const ProcessCmdLine&) = delete;
+
+    bool parseError();
+    Path path();
+    void path(const Path& path);
+    Options options();
+    void option(Option op);
+    bool hasOption(Option op);
+    Patterns patterns();
+    void pattern(const Pattern& patt);
+    Number maxItems();
+    void maxItems(Number number);
+    void usage(const Usage& usage);
+    void usage();
+    void showCmdLine(int argc, char** argv);
+    void showCmdLine();
+    void showPath();
+    void showOptions();
+    void showPatterns();
+    void showMaxItems();
+  private:
+    Usage usage_;
+    Path path_;
+    Patterns patterns_;
+    Options options_;
+    int maxItems_ = 0;
+    bool parseError_ = false;
+    std::ostream& out_;
+  }</span>;
+
+  <span class="SLC_Div">/*----&lt; path operations &gt;------------------------------------------*/</span>
+
+  inline void ProcessCmdLine::path(const Path& path) <span class= "function_div">
+  { 
+    path_ = path; 
+  }</span>
+
+  inline ProcessCmdLine::Path ProcessCmdLine::path()<span class= "function_div">
+  {
+    return path_;
+  }</span>
+
+  inline void ProcessCmdLine::showPath()<span class= "function_div">
+  {
+    out_ &lt;&lt; path_ &lt;&lt; " ";
+  }</span>
+
+  <span class="SLC_Div">/*----&lt; options operations &gt;---------------------------------------*/</span>
+
+  inline void ProcessCmdLine::option(Option option)<span class= "function_div">
+  {
+    options_.push_back(option);
+  }</span>
+
+  inline ProcessCmdLine::Options ProcessCmdLine::options()<span class= "function_div">
+  { 
+    return options_; 
+  }</span>
+
+  inline bool ProcessCmdLine::hasOption(Option op)<span class= "function_div">
+  {
+    for (auto item : options_)
+    {
+      if (item == op)
+      {
+        return true;
+      }
+    }
+    return false;
+  }</span>
+
+  inline void ProcessCmdLine::showOptions()<span class= "function_div">
+  {
+    for (auto opt : options_)
+    {
+      out_ &lt;&lt; '/' &lt;&lt; char(opt) &lt;&lt; " ";
+    }</span>
+  }</span>
+
+  <span class="SLC_Div">/*----&lt; patterns operations &gt;--------------------------------------*/</span>
+
+  inline void ProcessCmdLine::pattern(const Pattern& pattern)<span class= "function_div">
+  {
+    patterns_.push_back(pattern);
+  }</span>
+
+  inline ProcessCmdLine::Patterns ProcessCmdLine::patterns()<span class= "function_div">
+  {
+    return patterns_;
+  }</span>
+
+  inline void ProcessCmdLine::showPatterns()<span class= "function_div">
+  {
+    for (auto patt : patterns_)
+    {
+      out_ &lt;&lt; patt &lt;&lt; " ";
+    }</span>
+  }</span>
+
+  <span class="SLC_Div">/*----&lt; maxItems operations &gt;--------------------------------------*/</span>
+
+  inline void ProcessCmdLine::maxItems(Number maxItems)<span class= "function_div">
+  {
+    maxItems_ = maxItems;
+  }</span>
+
+  inline ProcessCmdLine::Number ProcessCmdLine::maxItems()<span class= "function_div">
+  {
+    return maxItems_;
+  }</span>
+
+  inline void ProcessCmdLine::showMaxItems()<span class= "function_div">
+  {
+    if(maxItems_ != 0)
+      out_ &lt;&lt; maxItems_ &lt;&lt; " ";
+  }</span>
+
+  <span class="SLC_Div">/*----&lt; parseError operation &gt;-------------------------------------*/</span>
+
+  inline bool ProcessCmdLine::parseError()<span class= "function_div">
+  {
+    return parseError_;
+  }</span>
+
+  <span class="SLC_Div">/*----&lt; command line operations &gt;----------------------------------*/</span>
+
+  inline ProcessCmdLine::ProcessCmdLine(int argc, char** argv, std::ostream& out) : out_(out)<span class= "function_div">
+  {
+    <span class="SLC_Div">//usage_ = defaultUsage();</span>
+    if (argc &lt; 2)
+    {
+      out &lt;&lt; "\n  command line parse error";
+      <span class="SLC_Div">//usage();</span>
+      parseError_ = true;
+      return;
+    }
+
+    path_ = argv[1];
+
+    for (int i = 2; i &lt; argc; ++i)
+    {
+      if (argv[i][0] == '/')
+      {
+        if (strlen(argv[i]) &gt; 2)
+          continue;
+        options_.push_back(argv[i][1]);
+      }
+      else
+      {
+        int number = atoi(argv[i]);
+        if (number &gt; 0)
+        {
+          maxItems_ = number;
+        }
+        else
+        {
+          patterns_.push_back(argv[i]);
+        }
+      }
+    }</span>
+  }</span>
+
+  inline void ProcessCmdLine::showCmdLine(int argc, char** argv)<span class= "function_div">
+  {
+    if (argc &gt; 2)
+    {
+      out_ &lt;&lt; "  empty";
+      return;
+    }
+    for (int i = 0; i &lt; argc; ++i)
+    {
+      if (argv[i] == "0")
+        continue;
+      if(argv[i][0] == '/')
+      { 
+        out_ &lt;&lt; "/" + char(argv[i][1]) &lt;&lt; " ";
+      }
+      else
+      {
+        out_ &lt;&lt; argv[i] &lt;&lt; " ";
+      }
+    }</span>
+  }</span>
+
+  inline void ProcessCmdLine::showCmdLine()<span class= "function_div">
+  {
+    if (path_ == "" && options_.size() == 0 && patterns_.size() == 0)
+    {
+      out_ &lt;&lt; "empty";
+      return;
+    }
+    showPath();
+    preface("", false);
+    showOptions();
+    preface("", false);
+    showPatterns();
+    preface("", false);
+    showMaxItems();
+  }</span>
+
+  inline void ProcessCmdLine::usage(const Usage& usage)<span class= "function_div">
+  {
+    usage_ = usage;
+  }</span>
+
+  inline void ProcessCmdLine::usage()<span class= "function_div">
+  {
+    out_ &lt;&lt; usage_;
+  }</span>
+
+  <span class="SLC_Div">/*-----------------------------&lt;Splits Filename from a path&gt;---------------------------------*/</span>
+
+  inline static std::string SplitFilename(const std::string& str)<span class= "function_div">
+  {
+	  std::size_t found = str.find_last_of("/\\");
+	  return str.substr(found + 1);
+  }</span>
+
+  <span class="SLC_Div">/*-----------------------------&lt;Selects File on a given Regex&gt;---------------------------------*/</span>
+  static std::vector&lt;std::string&gt; Fileselector(std::vector&lt;std::string&gt; files, std::vector&lt;std::string&gt; regex_)<span class= "function_div">
+  {
+	  std::vector&lt;std::string&gt; flist;
+
+
+	  for (auto file : files) {
+		  std::string fname = Utilities::SplitFilename(file);
+		  for (auto re : regex_)
+		  {
+			  std::regex reg(re);
+			  bool st = std::regex_match(fname, reg);
+			  if (st)
+			  {
+				  flist.push_back(file);
+			  }
+		  }
+	  }
+	  return flist;
+  }</span>
+
+  <span class="SLC_Div">/////////////////////////////////////////////////////////////////////</span>
+  <span class="SLC_Div">// Converter class</span>
+  <span class="SLC_Div">// - supports converting unspecified types to and from strings</span>
+  <span class="SLC_Div">// - a type is convertible if it provides insertion and extraction</span>
+  <span class="SLC_Div">//   operators</span>
+
+  template &lt;typename T&gt;
+  class Converter<span class= "class_div">
+  {
+  public:
+    static std::string toString(const T& t);
+    static T toValue(const std::string& src);
+  }</span>;
+  <span class="SLC_Div">//----&lt; convert t to a string &gt;--------------------------------------</span>
+
+  template &lt;typename T&gt;
+  std::string Converter&lt;T&gt;::toString(const T& t)<span class= "function_div">
+  {
+    std::ostringstream out;
+    out &lt;&lt; t;
+    return out.str();
+  }</span>
+  <span class="SLC_Div">//----&lt; convert a string to an instance of T &gt;-----------------------</span>
+  <span class="SLC_Div">/*
+  *  - the string must have been generated by Converter&lt;T&gt;::toString(const T& t)
+  *  - T::operator&gt;&gt; must be the inverse of T::operator&lt;&lt; 
+  */</span>
+  template&lt;typename T&gt;
+  T Converter&lt;T&gt;::toValue(const std::string& src)<span class= "function_div">
+  {
+    std::istringstream in(src);
+    T t;
+    in &gt;&gt; t;
+    return t;
+  }</span>
+
+  <span class="SLC_Div">///////////////////////////////////////////////////////////////////////</span>
+  <span class="SLC_Div">// Box class</span>
+  <span class="SLC_Div">// - wraps primitive type in class</span>
+  <span class="SLC_Div">// - preserves primitive syntax</span>
+
+  template&lt;typename T&gt;
+  class Box<span class= "class_div">
+  {
+  public:
+    Box() : primitive_(T()) <span class= "function_div">{}</span></span><span class= "function_div">
+    Box(const T& t) : primitive_(t) <span class= "function_div">{}</span>
+    operator T&() { return primitive_; }</span>
+    T& operator=(const T& t) <span class= "function_div">{ primitive_ = t; return primitive_; }</span>
+  private:
+    T primitive_;
+  }</span>;
+
+  <span class="SLC_Div">///////////////////////////////////////////////////////////////////////</span>
+  <span class="SLC_Div">// ToXml interface</span>
+  <span class="SLC_Div">// - defines language for creating XML elements</span>
+
+  struct ToXml
+  {
+    virtual std::string toXml(const std::string& tag) = 0;
+    virtual ~ToXml() <span class= "function_div">{}</span>;
+  };
+
+  <span class="SLC_Div">///////////////////////////////////////////////////////////////////////</span>
+  <span class="SLC_Div">// PersistFactory&lt;T&gt; class</span>
+  <span class="SLC_Div">// - wraps an instance of user-defined type</span>
+  <span class="SLC_Div">// - preserves semantics of user-defined type</span>
+  <span class="SLC_Div">// - adds toXml("tag") method</span>
+
+  template&lt;typename T&gt;
+  class PersistFactory : public T, ToXml<span class= "class_div">
+  {
+  public:
+    PersistFactory() = default;
+    PersistFactory(const T& t)<span class= "function_div">
+    {
+      T::operator=(t);
+    }</span>
+    std::string toXml(const std::string& tag)<span class= "function_div">
+    {
+      std::ostringstream out;
+      out &lt;&lt; "&lt;" &lt;&lt; tag &lt;&lt; "&gt;" &lt;&lt; *this &lt;&lt; "&lt;/" &lt;&lt; tag &lt;&lt; "&gt;";
+      return out.str();
+    }</span>
+  }</span>;
+}</span>
+
+</pre>
+</body>
+</html>

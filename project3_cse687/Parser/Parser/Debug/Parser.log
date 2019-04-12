@@ -1,0 +1,10 @@
+﻿  AbstrSynTree.cpp
+  GrammarHelpers.cpp
+  Logger.cpp
+  Semi.cpp
+  Toker.cpp
+  ActionsAndRules.cpp
+  ConfigureParser.cpp
+  Parser.cpp
+  Generating Code...
+  Parser.vcxproj -> D:\Projects\Cse_687\project3_cse687\Debug\Parser.lib
